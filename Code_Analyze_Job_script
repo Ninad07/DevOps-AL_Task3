@@ -1,0 +1,40 @@
+if sudo ls /kubernetes/code | grep .html
+then
+if sudo kubectl get deployments | grep httpd-dep
+then
+sudo kubectl delete deployment httpd-dep
+fi
+if sudo kubectl get services | grep httpd-dep
+then
+sudo kubectl delete services httpd-dep
+fi
+
+sudo kubectl create -f /kubernetes/httpd_dep.yml
+
+sudo kubectl expose deployment httpd-dep --port=80 --type=NodePort --selector="env=production"
+
+sleep 30
+
+sudo python3 /kubernetes/mount_httpd.py
+fi
+
+
+if sudo ls /kubernetes/code | grep .php
+then
+if sudo kubectl get deployments | grep php-dep
+then
+sudo kubectl delete deployment php-dep
+fi
+if sudo kubectl get services | grep php-dep
+then
+sudo kubectl delete services php-dep
+fi
+
+sudo kubectl create -f /kubernetes/php_dep.yml
+
+sudo kubectl expose deployment php-dep --port=80 --type=NodePort --selector="env=production"
+
+sleep 30
+
+sudo python3 /kubernetes/mount_php.py
+fi
