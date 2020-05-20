@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-dep
+
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - { key: env, operator: In, values: [production] }
+      - { key: region, operator: In, values: [ IN ] }
+
+  template:
+    metadata:
+      name: php-dep
+      labels:
+        env: production
+        dc: "2"
+        region: IN
+
+
+    spec:
+      containers:
+      - name: php-dep
+        image: php_web:v2
+
+

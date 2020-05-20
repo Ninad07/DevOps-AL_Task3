@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-dep
+
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - { key: env, operator: In, values: [production] }
+      - { key: region, operator: In, values: [ IN ] }
+
+  template:
+    metadata:
+      name: httpd-dep
+      labels:
+        env: production
+        dc: "2"
+        region: IN
+
+
+    spec:
+      containers:
+      - name: httpd-dep
+        image: httpd
+
+
